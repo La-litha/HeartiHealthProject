@@ -9,13 +9,13 @@ pipeline {
     stage ('Build Install dependencies') {
       steps{
         echo "Modules installed"
-        powershell 'npm install'
+        sh "npm install"
       }
     }
     stage ('Build completed') {
       steps{
         echo "Build completed"
-        powershell 'npm run ng -- build --prod'
+        sh "npm run ng -- build --prod"
       }
     }
     stage ('Build Docker Image') {
