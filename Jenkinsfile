@@ -6,14 +6,14 @@ node() {
   }
     stage('Install dependencies') {
         nodejs('nodejs') {
-            powershell 'npm install'
+            sh "npm install"
             echo 'Modules installed'
         }
         
     }
     stage('Build') {
         nodejs('nodejs') {
-            powershell 'npm run ng -- build --prod'
+            sh "npm run ng -- build --prod"
             echo 'Build completed'
         }
         
