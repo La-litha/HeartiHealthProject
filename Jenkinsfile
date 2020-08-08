@@ -4,18 +4,19 @@ node() {
     registryCredential = 'docker_hub_lalitha'
     dockerImage = ''
   }
-    stage ('Build Install dependencies') {
-        nodejs('nodejs'){
-        echo "Modules installed"
-        sh "npm install -g @angular/cli"
-        sh "npm start"
-      }
+    stage('Install dependencies') {
+        nodejs('nodejs') {
+            powershell 'npm install'
+            echo 'Modules installed'
+        }
+        
     }
-    stage ('Build completed') {
-        nodejs('nodejs'){
-        echo "Build completed"
-        sh "npm run ng -- build --prod"
-      }
+    stage('Build') {
+        nodejs('nodejs') {
+            powershell 'npm run ng -- build --prod'
+            echo 'Build completed'
+        }
+        
     }
     stage ('Build Docker Image') {
        nodejs('nodejs'){
