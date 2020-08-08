@@ -8,7 +8,6 @@ node() {
         nodejs('nodejs'){
         echo "Modules installed"
         sh "npm install -g @angular/cli"
-        sh "npm install"
         sh "npm start"
       }
     }
