@@ -41,7 +41,7 @@ pipeline {
       steps{
         echo "Deploying to Dev Environment"
          sh "docker rm -f heartihealth || true"
-        sh "docker run -d --name=petclinic -p 8081:8080 lalitha13/heartihealth"
+        sh "docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
       }
     }
   }
