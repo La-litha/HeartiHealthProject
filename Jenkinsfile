@@ -7,7 +7,9 @@ node() {
     stage ('Build Install dependencies') {
         nodejs('nodejs'){
         echo "Modules installed"
+        sh "npm install -g @angular/cli"
         sh "npm install"
+        sh "npm start"
       }
     }
     stage ('Build completed') {
