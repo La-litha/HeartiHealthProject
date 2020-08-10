@@ -1,53 +1,50 @@
-pipeline {
-   environment {
-    registry = "lalitha13/petclinic"
+node() {
+    environment {
+    registry = "lalitha13/heartihealth"
     registryCredential = 'docker_hub_lalitha'
     dockerImage = ''
   }
-  agent any
-  stages{
-     stage('Git CheckOut'){
-       steps{
-         git 'https://github.com/La-litha/HeartiHealthProject.git'
-       }
-     }
-    stage ('Install dependencies') {
-      steps{
-        echo "Modules installing"
-        sh 'npm install'
-      }
+  stage('Git CheckOut'){
+    nodejs('nodejs'){
+      git "https://github.com/La-litha/HeartiHealthProject.git"
     }
-    stage ('Build') {
-      steps{
-        echo "Building Project"
-        sh 'npm run ng -- build --prod'
-      }
+  }
+    stage('Install dependencies') {
+        nodejs('nodejs') {
+            sh "npm install"
+            echo 'Modules installed'
+        }
+        
+    }
+    stage('Build') {
+        nodejs('nodejs') {
+            sh "npm run ng -- build --prod"
+            echo 'Build completed'
+        }
+        
     }
     stage ('Build Docker Image') {
-      steps{
+       nodejs('nodejs'){
         echo "Building Docker Image"
-         script {
+          script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          }
         }
-      }
     }
     stage ('Push Docker Image') {
-      steps{
+       nodejs('nodejs'){
         echo "Pushing Docker Image"
          script {
-          docker.withRegistry( '', registryCredential ) {
+              docker.withRegistry( '', registryCredential ) {
               dockerImage.push()
               dockerImage.push('latest')
-          }
+              }
         }
       }
     }
     stage ('Deploy to Dev') {
-      steps{
         echo "Deploying to Dev Environment"
-         sh "docker rm -f petclinic || true"
-        sh "docker run -d --name=petclinic -p 8081:8080 lalitha13/petclinic"
+         sh "docker rm -f heartihealth || true"
+         sh "docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
       }
     }
-  }
-}
