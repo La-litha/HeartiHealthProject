@@ -1,50 +1,58 @@
-node() {
-    environment {
-    registry = "lalitha13/heartihealth"
+pipeline {
+  environment {
+      registry = "lalitha13/heartihealth"
     registryCredential = 'docker_hub_lalitha'
     dockerImage = ''
   }
-  stage('Git CheckOut'){
-    nodejs('nodejs'){
-      git "https://github.com/La-litha/HeartiHealthProject.git"
+  agent any
+  stages{
+    stage('Git'){
+      steps{
+        git "https://github.com/La-litha/HeartiHealthProject.git"
+      }
     }
-  }
-    stage('Install dependencies') {
+    stage ('Build') {
+      steps{
+        echo "Building Project"
         nodejs('nodejs') {
-            sh "npm install"
-            echo 'Modules installed'
+         sh 'npm install'
+         sh 'npm run build'
+       // sh 'npm rebuild node-sass'
+         // sh 'ng serve'
         }
-        
+      }
     }
-    stage('Build') {
-        nodejs('nodejs') {
-            sh "npm run ng -- build --prod"
-            echo 'Build completed'
-        }
-        
-    }
+  //  stage ('Archive') {
+   //   steps{
+   //     echo "Archiving Project"
+   //     archiveArtifacts artifacts: '*/.jar', followSymlinks: false
+   //   }
+  //  } 
     stage ('Build Docker Image') {
-       nodejs('nodejs'){
+      steps{
         echo "Building Docker Image"
-          script {
+        script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
-          }
         }
+      }
     }
     stage ('Push Docker Image') {
-       nodejs('nodejs'){
+      steps{
         echo "Pushing Docker Image"
-         script {
-              docker.withRegistry( '', registryCredential ) {
+        script {
+          docker.withRegistry( '', registryCredential ) {
               dockerImage.push()
               dockerImage.push('latest')
-              }
+          }
         }
       }
     }
     stage ('Deploy to Dev') {
+      steps{
         echo "Deploying to Dev Environment"
          sh "docker rm -f heartihealth || true"
          sh "docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
       }
     }
+  }
+}
