@@ -6,7 +6,7 @@ node() {
   }
   stage('Git CheckOut'){
     nodejs('nodejs'){
-      git clone "https://github.com/La-litha/HeartiHealthProject.git"
+      git "https://github.com/La-litha/HeartiHealthProject.git"
     }
   }
     stage('Install dependencies') {
