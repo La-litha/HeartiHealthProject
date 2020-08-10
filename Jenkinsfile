@@ -8,6 +8,7 @@ node() {
         nodejs('nodejs') {
             sh "npm install"
             sh "npm start"
+            sh "npm stop"
             echo 'Modules installed'
         }
         
