@@ -6,7 +6,8 @@ node() {
   }
     stage('Install dependencies') {
         nodejs('nodejs') {
-            sh "npm install"
+            sh "npm install --save-dev --unsafe-perm node-sass"
+            sh "npm start"
             echo 'Modules installed'
         }
         
