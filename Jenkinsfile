@@ -4,6 +4,11 @@ node() {
     registryCredential = 'docker_hub_lalitha'
     dockerImage = ''
   }
+  stage('Git Checkout'){
+    nodejs('nodejs'){
+      git clone "https://github.com/La-litha/HeartiHealthProject.git"
+    }
+  }
     stage('Install dependencies') {
         nodejs('nodejs') {
             sh "npm install"
