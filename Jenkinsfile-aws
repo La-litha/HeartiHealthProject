@@ -1,0 +1,13 @@
+pipeline {
+  agent any
+  stages{
+    stage ('Create AWS Stack') {
+      steps {
+        echo "Creating AWS CloudFormation Stack"
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-key', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+          sh 'aws cloudformation create-stack --stack-name heartihealth --template-body file://aws-template-hearti.yaml --region us-east-1 --parameters  ParameterKey=SSHKey,ParameterValue=petDemo ParameterKey=ELBVPC,ParameterValue=vpc-463ad13b ParameterKey=ELBSubnet,ParameterValue="subnet-be9843e1\\,subnet-43d17462"'
+        }
+      }
+    }
+  }
+}
