@@ -5,8 +5,8 @@ pipeline {
                 steps {
                   echo "Deploying to Prod1"
                   sshagent(['ssh-key']) {
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@52.90.29.180 docker rm -f heartihealth || true"
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@52.90.29.180 docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@52.91.219.48 docker rm -f heartihealth || true"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@52.91.219.48 docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
                   }
                 }
       }
@@ -14,8 +14,8 @@ pipeline {
                 steps {
                   echo "Deploying to Prod2"
                   sshagent(['ssh-key']) {
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@3.82.62.58 docker rm -f heartihealth || true"
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@3.82.62.58 docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.56 docker rm -f heartihealth || true"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.56 docker run -d --name=heartihealth -p 8081:8080 lalitha13/heartihealth"
                   }
                 }
       }         
