@@ -1,13 +1,26 @@
-FROM node:14-alpine as node
+# pull official base image
+FROM node:current
 
-WORKDIR /usr/src/app
+# set working directory
+WORKDIR /
 
-COPY package*.json ./
 
-RUN npm install
+# add `/node_modules/.bin` to $PATH
+ENV PATH /node_modules/.bin:$PATH
 
-COPY . .
+# install app dependencies
+COPY package.json ./
 
-RUN npm run build --prod
+RUN npm install 
+RUN npm install -y
+RUN npm install -g @angular/cli
+
+
+
+# add app
+COPY . ./
+
+# start app
+CMD ["ng","serve"]
 
 EXPOSE 80
