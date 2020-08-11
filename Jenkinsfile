@@ -17,17 +17,10 @@ pipeline {
         nodejs('nodejs') {
          sh 'npm install'
          sh 'npm run build'
-       // sh 'npm rebuild node-sass'
-         // sh 'ng serve'
         }
       }
     }
-  //  stage ('Archive') {
-   //   steps{
-   //     echo "Archiving Project"
-   //     archiveArtifacts artifacts: '*/.jar', followSymlinks: false
-   //   }
-  //  } 
+ 
     stage ('Build Docker Image') {
       steps{
         echo "Building Docker Image"
